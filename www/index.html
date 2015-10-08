@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Wicked Calculatah</title>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript">
+            // Wait for PhoneGap to load
+            //
+            document.addEventListener("deviceready", onDeviceReady, false);
+
+            // PhoneGap is ready
+            //
+            function onDeviceReady() {
+                $('#math_btn').click(function () {
+                    var week = parseInt($("#week_num").val());
+                    var avg = parseInt($("#current_avg").val());
+                    var gm1 = parseInt($("#game_1").val());
+                    var gm2 = parseInt($("#game_2").val());
+                    var gm3 = parseInt($("#game_3").val());
+
+                    // Get tonight's average
+                    var tonights_avg = avgTonight(gm1, gm2, gm3);
+
+                    // Get new average
+                    var new_avg = avgNew(tonights_avg, week, avg);
+
+                    // Get new handicap
+                    var new_handicap = newCap(new_avg);
+
+                    // Set element data
+                    $('#tonight_avg').html(Math.round(tonights_avg));
+                    $('#new_avg').html(Math.round(new_avg));
+                    $('#new_handicap').html(Math.round(new_handicap));
+
+                    $('.outputs').fadeIn(500);
+
+                    return true;
+                });
+
+                $('#reset_btn').click(function () {
+                    $.when($('.outputs').fadeOut(500)).done(function() {
+                        // Reset all element data
+                        $('#current_avg').val('');
+                        $('#game_1').val('');
+                        $('#game_2').val('');
+                        $('#game_3').val('');
+                        $('#tonight_avg').html('');
+                        $('#new_avg').html('');
+                        $('#new_handicap').html('');
+                    });
+
+                    return true;
+                });
+            }
+
+            function avgTonight(game1, game2, game3) {
+                var average = (game1 + game2 + game3) / 3;
+                return average;
+            }
+
+            function avgNew(tonight_avg, week_num, curr_avg) {
+                var new_avg = (3 * (((week_num - 1) * curr_avg) + tonight_avg)) / (week_num * 3);
+                return new_avg;
+            }
+
+            function newCap(avg) {
+                var diff = 200 - avg;
+                if (diff > 0) {
+                    var cap = 0.9 * diff;
+                }
+                else {
+                    var cap = 0;
+                }
+                return cap;
+            }
+
+        </script>
+    </head>
+    <body>
+    <div class="app">
+        <div class="header">
+            <h1>Wicked Calculatah</h1>
+        </div>
+        <div class="inputs">
+            <table>
+                <tr class="table_head">
+                    <th class="row_title"></th>
+                    <th class="row_entry"></th>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Week Number:
+                    </td>
+                    <td class="number">
+                        <input type="number" id="week_num">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Current Average:
+                    </td>
+                    <td class="number">
+                        <input type="number" id="current_avg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Game 1 Score:
+                    </td>
+                    <td class="number">
+                        <input type="number" id="game_1">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Game 2 Score:
+                    </td>
+                    <td class="number">
+                        <input type="number" id="game_2">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Game 3 Score:
+                    </td>
+                    <td class="number">
+                        <input type="number" id="game_3">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="button_cell">
+                        <button type="button" id="math_btn">Math Time!</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="outputs">
+            <table>
+                <tr class="table_head">
+                    <th class="row_title"></th>
+                    <th class="row_entry"></th>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Tonight's Average:
+                    </td>
+                    <td class="number" id="tonight_avg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        New Average:
+                    </td>
+                    <td class="number" id="new_avg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        New Handicap:
+                    </td>
+                    <td class="number" id="new_handicap">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="button_cell">
+                        <button type="button" id="reset_btn">Reset</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </body>
+</html>
