@@ -43,7 +43,7 @@ body {
     /*);*/
     background-attachment:fixed;
     font-family:'FreePixel';
-    font-size:18px;
+    font-size:16px;
     font-weight: bolder;
     height:100%;
     margin:0px;
@@ -83,19 +83,19 @@ body {
 }
 
 .inputs td {
-    line-height: 18px;
+    line-height: 16px;
 }
 
 .inputs input {
     border-radius: 0px;
     border: 1px solid black;
     box-shadow: none;
-    height: 22px;
+    height: 18px;
     width: 65%;
     padding-top: 10px;
     text-align: center;
     font-family: 'FreePixel';
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bolder;
     background-color: #fff;
     color: #000000;
@@ -111,17 +111,17 @@ body {
 
 .outputs .number {
     width: 400px; /* have to make it really big for table % to work */
-    padding-top: 10px;
+    padding-top: 5px;
     background-color: #fff000;
     color: #d7152f;
  }
 
 .row_title {
-    width: 75%
+    width: 78%
 }
 
 .row_entry {
-    width: 25%;
+    width: 22%;
 }
 
 .number {
@@ -133,7 +133,7 @@ body {
 }
 
 table {
-    width: 90%;
+    width: 92%;
     /*background-color: #4cd533;*/
     display: block;
     margin-left: auto;
@@ -142,7 +142,7 @@ table {
 }
 
 td {
-    font-size: 22px;
+    font-size: 20px;
     padding-bottom: 3px;
     padding-top: 3px;
     /*border: 1px solid black;*/
