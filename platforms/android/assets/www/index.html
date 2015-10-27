@@ -59,7 +59,7 @@
                     // Set element data
                     $('#tonight_avg').html(Math.round(tonights_avg));
                     $('#new_avg').html(Math.round(new_avg));
-                    $('#new_handicap').html(Math.round(new_handicap));
+                    $('#new_handicap').html(Math.floor(new_handicap)); //use floor to round down
 
                     $('.outputs').fadeIn(500);
 
